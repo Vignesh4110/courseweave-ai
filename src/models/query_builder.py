@@ -4,12 +4,11 @@ query_builder.py
 Builds an enriched semantic search query for Pinecone
 using careers.json (Adzuna + Gemini skill profile).
 
-YOUR responsibility:
+responsibility:
 - Read careers.json
 - Build a rich skill-based query from real job market data
 - Pass that query to retriever.py
 
-TEAMMATE's responsibility:
 - HyDE (hypothetical document embedding)
 - Hybrid search (dense + sparse BM25)
 - Cross-encoder reranking

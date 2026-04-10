@@ -1,0 +1,169 @@
+{
+  "eval_dataset": [
+    {
+      "test_id": "test_001",
+      "name": "Aisha Patel — standard data engineer case",
+      "student_id": 1,
+      "career_goal": "Data Engineer",
+      "completed_courses": ["IE6400", "IE6700", "IE6200"],
+      "expected_top_courses": ["IE6750", "IE6600", "IE7275"],
+      "should_not_recommend": ["IE6400", "IE6700", "IE6200"],
+      "must_flag_prereq": [],
+      "notes": "3 core courses done, should prioritize remaining core + data warehousing"
+    },
+    {
+      "test_id": "test_002",
+      "name": "Carlos Mendez — data scientist case",
+      "student_id": 2,
+      "career_goal": "Data Scientist",
+      "completed_courses": ["IE6400", "IE7275", "IE6600"],
+      "expected_top_courses": ["IE7615", "IE7500", "IE6200"],
+      "should_not_recommend": ["IE6400", "IE7275", "IE6600"],
+      "must_flag_prereq": [],
+      "notes": "Has data mining done, should move toward ML and NLP courses"
+    },
+    {
+      "test_id": "test_003",
+      "name": "Wei Zhang — software engineer CS program",
+      "student_id": 3,
+      "career_goal": "Software Engineer",
+      "completed_courses": ["CS5800", "CS6140"],
+      "expected_top_courses": ["CS6220", "CS7150", "CS6120"],
+      "should_not_recommend": ["CS5800", "CS6140"],
+      "must_flag_prereq": [],
+      "notes": "CS program, completed algorithms and ML"
+    },
+    {
+      "test_id": "test_004",
+      "name": "Priya Sharma — data analyst case",
+      "student_id": 4,
+      "career_goal": "Data Analyst",
+      "completed_courses": ["IE6400", "IE6600", "IE6200"],
+      "expected_top_courses": ["IE7275", "IE6750", "IE7215"],
+      "should_not_recommend": ["IE6400", "IE6600", "IE6200"],
+      "must_flag_prereq": [],
+      "notes": "Data analyst goal, visualization done, needs stats and warehousing"
+    },
+    {
+      "test_id": "test_005",
+      "name": "James OBrien — data scientist DS program",
+      "student_id": 5,
+      "career_goal": "Data Scientist",
+      "completed_courses": ["DS5110", "DS5220", "CS6140"],
+      "expected_top_courses": ["DS5230", "DS5500"],
+      "should_not_recommend": ["DS5110", "DS5220", "CS6140"],
+      "must_flag_prereq": [],
+      "notes": "DS program, two core done, needs capstone and unsupervised ML"
+    },
+    {
+      "test_id": "test_006",
+      "name": "Aisha Patel — fresh start no completions",
+      "student_id": 1,
+      "career_goal": "Data Engineer",
+      "completed_courses": [],
+      "expected_top_courses": ["IE6400", "IE6200", "IE6600"],
+      "should_not_recommend": [],
+      "must_flag_prereq": [],
+      "notes": "No courses completed, should recommend foundational core courses first"
+    },
+    {
+      "test_id": "test_007",
+      "name": "Carlos Mendez — nearly complete electives only left",
+      "student_id": 2,
+      "career_goal": "Data Scientist",
+      "completed_courses": ["IE6400", "IE7275", "IE6600", "IE6200", "IE6700"],
+      "expected_top_courses": ["IE7615", "IE7500", "IE6750"],
+      "should_not_recommend": ["IE6400", "IE7275", "IE6600", "IE6200", "IE6700"],
+      "must_flag_prereq": [],
+      "notes": "All core done, should only get elective recommendations"
+    },
+    {
+      "test_id": "test_008",
+      "name": "Prereq violation test — IE7615 needs IE7275",
+      "student_id": 1,
+      "career_goal": "Data Scientist",
+      "completed_courses": ["IE6400", "IE6700", "IE6200"],
+      "expected_top_courses": ["IE7275", "IE6600", "IE6750"],
+      "should_not_recommend": ["IE6400", "IE6700", "IE6200"],
+      "must_flag_prereq": ["IE7615"],
+      "notes": "IE7615 requires IE7275 which is not completed — must be flagged"
+    },
+    {
+      "test_id": "test_009",
+      "name": "ML Engineer career goal",
+      "student_id": 1,
+      "career_goal": "ML Engineer",
+      "completed_courses": ["IE6400", "IE6700", "IE6200"],
+      "expected_top_courses": ["IE7275", "IE6600", "IE7615"],
+      "should_not_recommend": ["IE6400", "IE6700", "IE6200"],
+      "must_flag_prereq": ["IE7615"],
+      "notes": "ML Engineer goal should surface ML-relevant courses, IE7615 flagged for missing IE7275"
+    },
+    {
+      "test_id": "test_010",
+      "name": "Guardrail test — completed courses must not appear",
+      "student_id": 1,
+      "career_goal": "Data Engineer",
+      "completed_courses": ["IE6400", "IE6700", "IE6200", "IE6600", "IE7275", "IE6750"],
+      "expected_top_courses": ["IE7500", "IE7615", "IE7215"],
+      "should_not_recommend": ["IE6400", "IE6700", "IE6200", "IE6600", "IE7275", "IE6750"],
+      "must_flag_prereq": [],
+      "notes": "6 courses completed — none of these should appear in recommendations"
+    },
+    {
+      "test_id": "test_011",
+      "name": "Data Analyst visualization focus",
+      "student_id": 4,
+      "career_goal": "Data Analyst",
+      "completed_courses": ["IE6400", "IE6200"],
+      "expected_top_courses": ["IE6600", "IE6700", "IE7275"],
+      "should_not_recommend": ["IE6400", "IE6200"],
+      "must_flag_prereq": [],
+      "notes": "Data analyst with stats done, visualization and DB courses should be prioritized"
+    },
+    {
+      "test_id": "test_012",
+      "name": "Core vs elective priority test",
+      "student_id": 1,
+      "career_goal": "Data Engineer",
+      "completed_courses": ["IE6400"],
+      "expected_top_courses": ["IE6700", "IE6200", "IE6600"],
+      "should_not_recommend": ["IE6400"],
+      "must_flag_prereq": [],
+      "notes": "Only one core done — system should prioritize remaining core courses before electives"
+    },
+    {
+      "test_id": "test_013",
+      "name": "Empty eligible courses edge case",
+      "student_id": 1,
+      "career_goal": "Data Engineer",
+      "completed_courses": ["IE6400", "IE6700", "IE6200", "IE6600", "IE7275", "IE6750", "IE7215", "IE7285", "IE7200", "IE7500", "IE7615", "IE5200"],
+      "expected_top_courses": [],
+      "should_not_recommend": ["IE6400", "IE6700", "IE6200", "IE6600", "IE7275", "IE6750", "IE7215", "IE7285", "IE7200", "IE7500", "IE7615", "IE5200"],
+      "must_flag_prereq": [],
+      "notes": "Almost all courses completed — pipeline should return empty gracefully"
+    },
+    {
+      "test_id": "test_014",
+      "name": "Career goal fuzzy match test",
+      "student_id": 2,
+      "career_goal": "ML Engineer",
+      "completed_courses": ["IE6400", "IE7275", "IE6600"],
+      "expected_top_courses": ["IE7615", "IE7500", "IE6200"],
+      "should_not_recommend": ["IE6400", "IE7275", "IE6600"],
+      "must_flag_prereq": [],
+      "notes": "ML Engineer fuzzy matches ml_engineer in careers.json"
+    },
+    {
+      "test_id": "test_015",
+      "name": "Relevance quality test — data warehousing should rank high for data engineer",
+      "student_id": 1,
+      "career_goal": "Data Engineer",
+      "completed_courses": ["IE6400", "IE6700"],
+      "expected_top_courses": ["IE6750", "IE6200", "IE6600"],
+      "should_not_recommend": ["IE6400", "IE6700"],
+      "must_flag_prereq": [],
+      "notes": "IE6750 Data Warehousing should always rank in top 3 for Data Engineer goal"
+    }
+  ]
+}

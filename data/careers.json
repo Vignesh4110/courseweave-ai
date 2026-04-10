@@ -1,0 +1,212 @@
+{
+  "generated_at": "2026-04-10T20:19:38.816216+00:00",
+  "careers": {
+    "data_engineer": {
+      "source": "adzuna_api + gemini_enrichment",
+      "scraped_at": "2026-04-10T20:19:16.262795+00:00",
+      "postings_analyzed": 20,
+      "adzuna_raw_skills": [
+        "AWS",
+        "ETL",
+        "Python",
+        "R",
+        "SQL",
+        "data pipelines",
+        "feature engineering",
+        "machine learning"
+      ],
+      "core_skills": [
+        "ETL",
+        "Python",
+        "SQL",
+        "data pipelines",
+        "Data Modeling",
+        "Data Warehousing",
+        "Git"
+      ],
+      "tools": [
+        "AWS",
+        "Apache Spark",
+        "Apache Airflow",
+        "GCP",
+        "Docker"
+      ],
+      "nice_to_have": [
+        "R",
+        "feature engineering",
+        "machine learning"
+      ],
+      "llm_additions": [
+        "Data Modeling",
+        "Data Warehousing",
+        "Git",
+        "Apache Spark",
+        "Apache Airflow",
+        "GCP",
+        "Docker"
+      ]
+    },
+    "data_scientist": {
+      "source": "adzuna_api + gemini_enrichment",
+      "scraped_at": "2026-04-10T20:19:25.629158+00:00",
+      "postings_analyzed": 20,
+      "adzuna_raw_skills": [
+        "machine learning"
+      ],
+      "core_skills": [
+        "machine learning",
+        "Statistics",
+        "Data Analysis",
+        "Programming",
+        "SQL",
+        "Data Visualization",
+        "Problem Solving",
+        "Communication",
+        "Experimentation"
+      ],
+      "tools": [
+        "Python",
+        "R",
+        "SQL",
+        "Pandas",
+        "NumPy",
+        "Scikit-learn",
+        "TensorFlow",
+        "PyTorch",
+        "AWS",
+        "Azure",
+        "GCP",
+        "Git",
+        "Jupyter Notebooks",
+        "Tableau",
+        "Power BI",
+        "Apache Spark"
+      ],
+      "nice_to_have": [
+        "Deep Learning",
+        "Natural Language Processing (NLP)",
+        "Computer Vision",
+        "MLOps",
+        "Hadoop",
+        "Kafka"
+      ],
+      "llm_additions": [
+        "Statistics",
+        "Data Analysis",
+        "Programming",
+        "SQL",
+        "Data Visualization",
+        "Problem Solving",
+        "Communication",
+        "Experimentation",
+        "Python",
+        "R",
+        "Pandas",
+        "NumPy",
+        "Scikit-learn",
+        "TensorFlow",
+        "PyTorch",
+        "AWS",
+        "Azure",
+        "GCP",
+        "Git",
+        "Jupyter Notebooks",
+        "Tableau",
+        "Power BI",
+        "Apache Spark",
+        "Deep Learning",
+        "Natural Language Processing (NLP)",
+        "Computer Vision",
+        "MLOps",
+        "Hadoop",
+        "Kafka"
+      ]
+    },
+    "ml_engineer": {
+      "source": "adzuna_api + gemini_enrichment",
+      "scraped_at": "2026-04-10T20:19:33.128919+00:00",
+      "postings_analyzed": 20,
+      "adzuna_raw_skills": [
+        "AWS",
+        "Python",
+        "R",
+        "data pipelines",
+        "machine learning"
+      ],
+      "core_skills": [
+        "Python",
+        "data pipelines",
+        "machine learning",
+        "SQL",
+        "MLOps"
+      ],
+      "tools": [
+        "AWS",
+        "TensorFlow",
+        "PyTorch",
+        "Scikit-learn",
+        "Git",
+        "Docker",
+        "Apache Spark"
+      ],
+      "nice_to_have": [
+        "R"
+      ],
+      "llm_additions": [
+        "SQL",
+        "TensorFlow",
+        "PyTorch",
+        "Scikit-learn",
+        "Git",
+        "Docker",
+        "Apache Spark",
+        "MLOps"
+      ]
+    },
+    "data_analyst": {
+      "source": "adzuna_api + gemini_enrichment",
+      "scraped_at": "2026-04-10T20:19:38.816153+00:00",
+      "postings_analyzed": 20,
+      "adzuna_raw_skills": [
+        "Power BI",
+        "data modeling",
+        "data warehouse"
+      ],
+      "core_skills": [
+        "data modeling",
+        "data warehouse",
+        "SQL",
+        "statistical analysis",
+        "data visualization",
+        "communication",
+        "problem-solving"
+      ],
+      "tools": [
+        "Power BI",
+        "Excel",
+        "Python",
+        "R",
+        "Tableau"
+      ],
+      "nice_to_have": [
+        "Machine Learning",
+        "A/B Testing",
+        "Cloud Platforms"
+      ],
+      "llm_additions": [
+        "SQL",
+        "statistical analysis",
+        "data visualization",
+        "communication",
+        "problem-solving",
+        "Excel",
+        "Python",
+        "R",
+        "Tableau",
+        "Machine Learning",
+        "A/B Testing",
+        "Cloud Platforms"
+      ]
+    }
+  }
+}

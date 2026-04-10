@@ -3,7 +3,7 @@ eval_runner.py
 --------------
 Evaluation logic for CourseWeave AI recommendation pipeline.
 
-KEY FIXES vs previous version:
+
     1. run_single_test() overrides student context with test case scenario
     2. time.sleep(15) between tests — stays safely under 10 RPM Gemini limit
     3. Gemini calls in retriever.py reduced to max 2 per test
@@ -19,7 +19,7 @@ To remove rate limit issue permanently:
     Go to https://console.cloud.google.com/iam-admin/quotas?project=courseweave-ai
     Search "Generate content requests per minute" → request increase to 60 RPM
 
-TEAMMATE MLflow INSTRUCTIONS:
+
     with mlflow.start_run(run_name="experiment_full_rag"):
         config = {
             "embedding_model": "bge-small-en-v1.5",
