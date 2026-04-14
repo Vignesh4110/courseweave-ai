@@ -432,7 +432,7 @@ def test_generate_recommendation_uses_db_career_goal(monkeypatch):
 
 def test_generate_recommendation_no_courses_found(monkeypatch):
     import src.agents.recommendation_agent as ra
-    monkeypatch.setattr(ra, "get_student_context", lambda sid: SAMPLE_STUDENT)
+    monkeypatch.setattr(ra, "get_relevant_courses", lambda q, ctx, top_k=3, career_goal=None: [])
     monkeypatch.setattr(ra, "get_degree_audit", lambda sid: SAMPLE_AUDIT)
     monkeypatch.setattr(ra, "build_query", lambda goal: SAMPLE_QUERY_RESULT)
     monkeypatch.setattr(ra, "get_relevant_courses", lambda q, ctx, top_k=3, career_goal=None: SAMPLE_COURSES)
