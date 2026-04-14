@@ -403,7 +403,7 @@ def test_generate_recommendation_updates_degree_path(monkeypatch):
     monkeypatch.setattr(ra, "get_degree_audit", lambda sid: SAMPLE_AUDIT)
     monkeypatch.setattr(ra, "update_degree_path", update_mock)
     monkeypatch.setattr(ra, "build_query", lambda goal: SAMPLE_QUERY_RESULT)
-    monkeypatch.setattr(ra, "get_relevant_courses", lambda q, ctx, top_k: SAMPLE_COURSES)
+    monkeypatch.setattr(ra, "get_relevant_courses", lambda q, ctx, top_k=3, career_goal=None: SAMPLE_COURSES)
     monkeypatch.setattr(ra, "reorder_by_prerequisites",
                         lambda codes, completed, pmap: SAMPLE_PREREQ_STATUS)
     monkeypatch.setattr(ra, "gemini_generate", lambda prompt, **kw: "Your courses")
@@ -420,7 +420,7 @@ def test_generate_recommendation_uses_db_career_goal(monkeypatch):
     monkeypatch.setattr(ra, "get_student_context", lambda sid: SAMPLE_STUDENT)
     monkeypatch.setattr(ra, "get_degree_audit", lambda sid: SAMPLE_AUDIT)
     monkeypatch.setattr(ra, "build_query", query_mock)
-    monkeypatch.setattr(ra, "get_relevant_courses", lambda q, ctx, top_k: SAMPLE_COURSES)
+    monkeypatch.setattr(ra, "get_relevant_courses", lambda q, ctx, top_k=3, career_goal=None: SAMPLE_COURSES)
     monkeypatch.setattr(ra, "reorder_by_prerequisites",
                         lambda codes, completed, pmap: SAMPLE_PREREQ_STATUS)
     monkeypatch.setattr(ra, "gemini_generate", lambda prompt, **kw: "Recommendation")
@@ -435,7 +435,7 @@ def test_generate_recommendation_no_courses_found(monkeypatch):
     monkeypatch.setattr(ra, "get_student_context", lambda sid: SAMPLE_STUDENT)
     monkeypatch.setattr(ra, "get_degree_audit", lambda sid: SAMPLE_AUDIT)
     monkeypatch.setattr(ra, "build_query", lambda goal: SAMPLE_QUERY_RESULT)
-    monkeypatch.setattr(ra, "get_relevant_courses", lambda q, ctx, top_k: [])
+    monkeypatch.setattr(ra, "get_relevant_courses", lambda q, ctx, top_k=3, career_goal=None: SAMPLE_COURSES)
 
     result = generate_recommendation(student_id=1, career_goal="Data Engineer")
     assert result["action"] == "recommend"
@@ -449,7 +449,7 @@ def test_generate_recommendation_full_pipeline(monkeypatch):
     monkeypatch.setattr(ra, "get_student_context", lambda sid: SAMPLE_STUDENT)
     monkeypatch.setattr(ra, "get_degree_audit", lambda sid: SAMPLE_AUDIT)
     monkeypatch.setattr(ra, "build_query", lambda goal: SAMPLE_QUERY_RESULT)
-    monkeypatch.setattr(ra, "get_relevant_courses", lambda q, ctx, top_k: SAMPLE_COURSES)
+    monkeypatch.setattr(ra, "get_relevant_courses", lambda q, ctx, top_k=3, career_goal=None: SAMPLE_COURSES)
     monkeypatch.setattr(ra, "reorder_by_prerequisites",
                         lambda codes, completed, pmap: SAMPLE_PREREQ_STATUS)
     monkeypatch.setattr(ra, "gemini_generate", lambda prompt, **kw: "Take IE7275 first!")
@@ -472,7 +472,7 @@ def test_generate_recommendation_gemini_failure_falls_back_to_course_names(monke
     monkeypatch.setattr(ra, "get_student_context", lambda sid: SAMPLE_STUDENT)
     monkeypatch.setattr(ra, "get_degree_audit", lambda sid: SAMPLE_AUDIT)
     monkeypatch.setattr(ra, "build_query", lambda goal: SAMPLE_QUERY_RESULT)
-    monkeypatch.setattr(ra, "get_relevant_courses", lambda q, ctx, top_k: SAMPLE_COURSES)
+    monkeypatch.setattr(ra, "get_relevant_courses", lambda q, ctx, top_k=3, career_goal=None: SAMPLE_COURSES)
     monkeypatch.setattr(ra, "reorder_by_prerequisites",
                         lambda codes, completed, pmap: SAMPLE_PREREQ_STATUS)
     monkeypatch.setattr(ra, "gemini_generate",
