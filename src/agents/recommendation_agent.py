@@ -96,7 +96,8 @@ def gemini_generate(prompt: str, max_retries: int = 4) -> str:
 
 def format_courses_for_prompt(
     courses: list[dict],
-    prereq_status: list[dict]
+    prereq_status: list[dict],
+    student_context: dict = None
 ) -> str:
     """Format retrieved courses + prereq status for the Gemini prompt."""
     lines      = []
@@ -115,11 +116,18 @@ def format_courses_for_prompt(
             else f"⚠️  Requires completing first: {', '.join(status.get('missing_prereqs', []))}"
         )
 
+        petition_required = (student_context or {}).get("petition_required", [])
+        petition_note = (
+            "📋 Outside your home department — petition required before enrolling"
+            if code in petition_required else ""
+        )
+
         lines.append(
             f"{i}. {code} — {name}\n"
             f"   Relevance score: {score}\n"
             f"   Description: {text}...\n"
             f"   {prereq_note}"
+            + (f"\n   {petition_note}" if petition_note else "")
         )
 
     return "\n\n".join(lines)
@@ -137,7 +145,7 @@ def build_recommendation_prompt(
     Build the Gemini prompt with full degree audit context.
     Gemini now knows the student's credit progress and path.
     """
-    courses_text = format_courses_for_prompt(courses, prereq_status)
+    courses_text = format_courses_for_prompt(courses, prereq_status, student_context)
     core_skills  = career_skills.get("core_skills", [])
     tools        = career_skills.get("tools", [])
 
@@ -181,6 +189,8 @@ Write a friendly, conversational recommendation for {student_context['name']}.
 - Explain why each course fits their {career_goal} goal specifically
 - If a course has unmet prerequisites, slot it AFTER its prerequisite in the plan
 - Be warm and encouraging — like a real advisor who knows their full situation
+- If a course is marked 📋 (petition required), tell the student they need to 
+  petition that department before enrolling — mention it naturally, not as a warning
 
 STRICT RULES:
 - Only recommend courses from the retrieved list above
@@ -454,7 +464,7 @@ def generate_recommendation(
 
     # ── Step 5: Retrieve from Pinecone ───────────────────────────────────────
     logger.info("Step 5: Retrieving courses from Pinecone")
-    courses = get_relevant_courses(query, student_context, top_k=top_k)
+    courses = get_relevant_courses(query, student_context, top_k=top_k, career_goal=career_goal)
 
     if not courses:
         recommendation = (
@@ -568,7 +578,7 @@ def generate_followup(
     career_goal   = session_context.get("career_goal", student_context.get("target_career", ""))
     career_skills = session_context.get("career_skills", {})
 
-    courses_text  = format_courses_for_prompt(courses, prereq_status)
+    courses_text  = format_courses_for_prompt(courses, prereq_status, student_context)
 
     history_lines = []
     for msg in conversation_history:
@@ -576,6 +586,8 @@ def generate_followup(
         history_lines.append(f"{speaker}: {msg['text']}")
     history_text = "\n\n".join(history_lines)
 
+    core_skills = career_skills.get("core_skills", [])
+    tools       = career_skills.get("tools", [])
     prompt = f"""You are CourseWeave, a friendly academic advisor at Northeastern University.
 Continue this advising conversation with {student_context['name']}.
 
@@ -585,6 +597,10 @@ STUDENT PROFILE:
 - Credits completed: {degree_audit.get('credits_completed', 0)} / {degree_audit.get('total_credits', 32)}
 - Completed courses: {', '.join(student_context['completed_courses']) or 'None yet'}
 
+KEY SKILLS NEEDED FOR {career_goal.upper()} (from real job market data):
+- Core skills: {', '.join(core_skills)}
+- Tools: {', '.join(tools)}
+
 COURSES ALREADY RECOMMENDED:
 {courses_text}
 
@@ -592,10 +608,12 @@ CONVERSATION HISTORY:
 {history_text}
 
 Respond naturally and helpfully to the student's latest message.
+If they ask about tools or skills, reference the job market data above.
 Only reference courses from the list above — never invent new courses or codes.
 Keep your response under 200 words."""
 
     try:
+        logger.info("Follow-up prompt includes career skills: core=%d tools=%d", len(core_skills), len(tools))
         response = gemini_generate(prompt)
     except Exception as e:
         logger.error("Gemini follow-up failed: %s", e)

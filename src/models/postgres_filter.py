@@ -87,18 +87,40 @@ def get_student_context(student_id: int) -> dict:
             # excluding already completed ones
             # Core courses come FIRST — academic policy
             cur.execute("""
-                SELECT course_code, course_name, course_type
-                FROM courses
-                WHERE program_code = %s
-                  AND is_active = TRUE
-                  AND course_code NOT IN (
-                      SELECT course_code FROM student_courses
-                      WHERE student_id = %s
-                  )
+                SELECT course_code, course_name, course_type, requires_petition
+                FROM (
+                    SELECT course_code, course_name, course_type, FALSE as requires_petition
+                    FROM courses
+                    WHERE program_code = %s
+                    AND is_active = TRUE
+                    AND course_code NOT IN (
+                        SELECT course_code FROM student_courses
+                        WHERE student_id = %s
+                    )
+
+                    UNION
+
+                    SELECT ec.course_code, ec.course_name, 'Elective' as course_type,
+                        TRUE as requires_petition
+                    FROM elective_courses ec
+                    JOIN program_elective_departments ped
+                    ON ec.dept_code = ped.dept_code
+                    AND ped.program_code = %s
+                    WHERE ec.course_code NOT IN (
+                        SELECT course_code FROM student_courses
+                        WHERE student_id = %s
+                    )
+                    AND ec.course_code NOT IN (
+                        SELECT course_code FROM courses
+                        WHERE program_code = %s
+                    )
+                ) combined
                 ORDER BY
                     CASE WHEN course_type = 'Core' THEN 0 ELSE 1 END,
                     course_code
-            """, (student["program_code"], student_id))
+            """, (student["program_code"], student_id,
+                student["program_code"], student_id,
+                student["program_code"]))
 
             eligible_rows = cur.fetchall()
             eligible      = [row["course_code"] for row in eligible_rows]
@@ -110,6 +132,12 @@ def get_student_context(student_id: int) -> dict:
                 row["course_code"] for row in eligible_rows
                 if row["course_type"] == "Elective"
             ]
+            # Track which courses require petition
+            petition_required = [
+                row["course_code"] for row in eligible_rows
+                if row["requires_petition"]
+            ]
+            logger.info("Eligible courses: %d total (%d require petition)", len(eligible), len(petition_required))
 
             # Step 4: Get prerequisite graph for eligible courses
             # Used later for reordering recommendations
@@ -142,6 +170,7 @@ def get_student_context(student_id: int) -> dict:
                 "core_remaining":      core_remaining,
                 "electives_available": electives_available,
                 "prereq_map":          prereq_map,     # course → [required courses]
+                "petition_required":   petition_required,  # NEW
             }
 
     except Exception as e:
