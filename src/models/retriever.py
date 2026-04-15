@@ -296,30 +296,12 @@ def get_hyde_output(query: str, career_goal: str = None) -> dict:
 
 def build_pinecone_filter(student_context: dict) -> dict:
     """
-    Build a Pinecone metadata pre-filter from student context.
-    Filters by department when eligible course set is narrow enough.
-    Eligibility filtering is handled post-retrieval in guardrails.
+    Department pre-filter removed — students can take electives across departments.
+    Pinecone searches all indexed departments (IE, CS, DS, AI).
+    Eligibility and guardrail filtering handled post-retrieval.
     """
-    pinecone_filter  = {}
-    eligible_courses = student_context.get("eligible_courses", [])
-
-    departments = set()
-    for code in eligible_courses:
-        normalized = code.replace(" ", "").upper()
-        dept = ''.join(filter(str.isalpha, normalized))
-        if dept:
-            departments.add(dept)
-
-    if len(departments) == 1:
-        pinecone_filter["department"] = {"$eq": list(departments)[0]}
-        logger.info("Pre-filter: department = %s", list(departments)[0])
-    elif len(departments) <= 3:
-        pinecone_filter["department"] = {"$in": list(departments)}
-        logger.info("Pre-filter: departments in %s", list(departments))
-    else:
-        logger.info("Pre-filter: skipped — too many departments (%d)", len(departments))
-
-    return pinecone_filter
+    logger.info("Pre-filter: none — cross-department search enabled")
+    return {}
 
 
 # ============================================================
