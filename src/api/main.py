@@ -807,6 +807,18 @@ def recommend(req: RecommendRequest, user=Depends(verify_token)):
                 )
                 course_info = {row["course_code"]: {"credits": row["credits"], "course_type": row["course_type"]} for row in cur.fetchall()}
 
+                # Also check elective_courses for cross-dept courses not in courses table
+                missing_codes = [c for c in course_codes if c not in course_info]
+                if missing_codes:
+                    placeholders2 = ",".join(["%s"] * len(missing_codes))
+                    cur.execute(
+                        f"SELECT course_code, credits, 'Elective' as course_type FROM elective_courses WHERE course_code IN ({placeholders2})",
+                        missing_codes
+                    )
+                    for row in cur.fetchall():
+                        course_info[row["course_code"]] = {"credits": row["credits"], "course_type": row["course_type"]}
+                    logger.info("Enriched %d cross-dept courses from elective_courses", len(missing_codes))
+
                 for course in result["courses"]:
                     info = course_info.get(course["course_code"], {})
                     course["credits"] = info.get("credits", 4)
