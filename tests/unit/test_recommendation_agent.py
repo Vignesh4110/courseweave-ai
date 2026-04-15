@@ -471,7 +471,7 @@ def test_generate_recommendation_gemini_failure_falls_back_to_course_names(monke
     monkeypatch.setattr(ra, "get_student_context", lambda sid: SAMPLE_STUDENT)
     monkeypatch.setattr(ra, "get_degree_audit", lambda sid: SAMPLE_AUDIT)
     monkeypatch.setattr(ra, "build_query", lambda goal: SAMPLE_QUERY_RESULT)
-    monkeypatch.setattr(ra, "get_relevant_courses", lambda q, ctx, top_k: SAMPLE_COURSES)
+    monkeypatch.setattr(ra, "get_relevant_courses", lambda q, ctx, top_k=3, career_goal=None: SAMPLE_COURSES)
     monkeypatch.setattr(ra, "reorder_by_prerequisites",
                         lambda codes, completed, pmap: SAMPLE_PREREQ_STATUS)
     monkeypatch.setattr(ra, "gemini_generate",
