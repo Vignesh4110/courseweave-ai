@@ -36,7 +36,7 @@ JWT_SECRET = os.getenv("JWT_SECRET", "courseweave-secret-key-change-in-prod")
 JWT_ALGORITHM = "HS256"
 JWT_EXPIRY_HOURS = 24
 
-security = HTTPBearer()
+security = HTTPBearer() 
 
 PROGRAMS = ["MS_DAE", "MS_DS", "MS_CS", "MS_DA", "MS_IS"]
 CAREERS = ["Data Engineer", "Data Scientist", "Data Analyst", "Business Analyst", "Software Engineer", "ML Engineer"]
